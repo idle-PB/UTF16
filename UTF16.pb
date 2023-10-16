@@ -4739,17 +4739,15 @@ Module UTF16
   EndProcedure   
   
   Procedure.s StrChr(v.i) ;return a proper surrogate pair for unicode values outside the BMP (Basic Multilingual Plane)
-    Protected high, low
+    Protected buffer.q
     If v < $10000
       ProcedureReturn Chr(v)
     Else
-      v - $10000
-      high = (v >> 10) + $D800  ;high/lead surrogate value
-      low = (v & 1023) + $DC00  ;low/tail surrogate
-      ProcedureReturn Chr(high) + Chr(low)
+      Buffer = (v&$3FF)<<16 | (v-$10000)>>10 | $DC00D800
+      ProcedureReturn PeekS(@Buffer, 2, #PB_Unicode)
     EndIf
   EndProcedure
-  
+    
   Procedure StrAsc_(*a.aUnicode) 
     Protected high,low 
     Protected *chr.unicode = *a 
