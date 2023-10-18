@@ -4739,12 +4739,12 @@ Module UTF16
   EndProcedure   
   
   Procedure.s StrChr(v.i) ;return a proper surrogate pair for unicode values outside the BMP (Basic Multilingual Plane)
-    Protected buffer.q
+    Protected chr.q
     If v < $10000
       ProcedureReturn Chr(v)
     Else
-      Buffer = (v&$3FF)<<16 | (v-$10000)>>10 | $DC00D800
-      ProcedureReturn PeekS(@Buffer, 2, #PB_Unicode)
+      chr = (v&$3FF)<<16 | (v-$10000)>>10 | $DC00D800
+      ProcedureReturn PeekS(@chr, 2, #PB_Unicode)
     EndIf
   EndProcedure
     
@@ -4979,11 +4979,11 @@ CompilerIf #PB_Compiler_IsMainFile
       PrintN( "is utf16 = " + Str(IsUTF16(sb)))   
     EndIf   
     
-    Global s2.s =  "aSSEai"+Chr($0307)+"dßf"    ;these strings are deemed to be equal with full case folding 
-    Global s1.s =  "aßEa?dssf"
+    Global s2.s =  "aßEaİdssf"    ;these strings are deemed to be equal with full case folding 
+    Global s1.s =  "aSSEai̇dßf"
     
-    Global s3.s = "D?YARBAKIR"  ;this turkish city is deemed to be equal  
-    Global s4.s = "diyarbak?r"
+    Global s3.s = "DİYARBAKIR"  ;this turkish city is deemed to be equal  
+    Global s4.s = "dIyarbakİr"
     
     Global s5.s  = "SomeMixedCaseStringWithNothingSpecialOtherThanBeingLong" ;regular strings equal in full or simple 
     Global s6.s = "sOMEmIXEDcASEsTRINGwithnOTHINGsPECIALoTHERtHANbEINGlONG" 
@@ -5007,7 +5007,7 @@ CompilerIf #PB_Compiler_IsMainFile
     EndIf  
     
     If StrCmp(s7,s8,#CASENORMAL)
-      PrintN( "Nomal With case " + s7 + " = " + s8)
+      PrintN( "Normal With case " + s7 + " = " + s8)
       PrintN( "is utf16 = " + Str(IsUTF16(s7)))   
     EndIf  
     
@@ -5074,13 +5074,13 @@ CompilerIf #PB_Compiler_IsMainFile
     out + " | " + Hex(StrAsc(t1))
     Debug out 
     
-    Define example$ = "?A??K?"
+    Define example$ = "😁A😁😁K😁"
     PrintN(example$)
-    PrintN("left 2 " +  StrLeft(example$,2)) ;?A
-    PrintN("right 2 " +  StrRight(example$,2));K?
-    PrintN("mid 1,4 " + StrMid(example$,1,4)) ;A??K
+    PrintN("left 2 " +  StrLeft(example$,2)) ;😁A
+    PrintN("right 2 " +  StrRight(example$,2));K😁
+    PrintN("mid 1,4 " + StrMid(example$,1,4)) ;A😁😁K
     
-    PrintN("chr_Asc_((Left_example,1))) " +  StrChr(StrAsc(StrLeft(example$,1)))) ;? 
+    PrintN("chr_Asc_((Left_example,1))) " +  StrChr(StrAsc(StrLeft(example$,1)))) ;😁 
     PrintN("Is UTF16 " + Str(IsUTF16(example$))) 
     
     example$ = "ñ" 
