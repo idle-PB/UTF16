@@ -80,8 +80,7 @@
   Declare.s   StrChr(v.i)
   Declare.s   StrRight(string$,len) 
   ;Declare.s   StrDecompose(v.i) 
-  Declare     StrCase(*in.Unicode,type=#CASESIMPLE,sep=' ')   
-    
+      
   Prototype   StrAsc(str.p-unicode)
   Prototype   StrLen(str.p-unicode) 
   Prototype.s StrMid(str.p-unicode,Position,Length)
