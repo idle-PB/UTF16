@@ -11887,7 +11887,9 @@ EndDataSection
     Protected *char.Unicode,tchar.u 
     *char = *in 
     While *char\u  
-      *char\u = casemappingCD(*char\u)\cdl 
+      If casemappingCD(*char\u)\cdl <> 0 
+        *char\u = casemappingCD(*char\u)\cdl 
+      EndIf 
       *char+2 
     Wend 
     
@@ -12051,11 +12053,12 @@ CompilerIf #PB_Compiler_IsMainFile
     example$ = "ñ" 
     StrUCase(example$)
     PrintN("strucase " + example$ )
-    
-    input_string$="ČŠŽčšž"
+        
+    input_string$="@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~€ ‚ „…†‡ ‰Š‹ŚŤŽŹ ‘’“”•–— ™š›śťžź ˇ˘Ł¤Ą¦§¨©Ş«¬­®Ż°±˛ł´µ¶·¸ąş»Ľ˝ľżŔÁÂĂÄĹĆÇČÉĘËĚÍÎĎĐŃŇÓÔŐÖ×ŘŮÚŰÜÝŢßŕáâăäĺćçčéęëěíîďđńňóôőö÷řůúűüýţ˙"
     StrStripAccents(input_string$) 
     Debug input_string$ 
-      
+     
+     
     Input() 
     
   CompilerElse 
