@@ -11858,30 +11858,7 @@ EndDataSection
     Wend 
     
   EndProcedure 
-  
-  Procedure StrCase(*in.Unicode,type=#CASESIMPLE,sep=' ') 
-    
-    Protected *char.Unicode,tchar.u,bnext=1 
-    *char = *in 
-    While *char\u  
-      If *Char\u = sep 
-        bnext= 1 
-        *char+2  
-        Continue
-      ElseIf bnext     
-        bnext = 0 
-        tchar = casemapping(#CASEFULL,*char\u)  
-      Else   
-        tchar = casemapping(#CASEFULL,*char\u)
-      EndIf   
-      If tchar 
-        *char\u = tchar 
-      EndIf   
-      *char+2 
-    Wend 
-    
-  EndProcedure   
-  
+      
   Procedure StrStripAccents_(*in.Unicode)  ;changes the case of the string inplace 
     
     Protected *char.Unicode,tchar.u 
@@ -12105,10 +12082,6 @@ CompilerIf #PB_Compiler_IsMainFile
     out + "strLCase / strUcase " + Str(et-st) + " ms for " + FormatNumber(lp,0) + #CRLF$ 
     out + "LCase / UCase  " + Str(et1-et) + " ms for " + FormatNumber(lp,0) + #CRLF$  
     
-    
-    ;SetClipboardText(out)
-    ;MessageRequester("case fold strcmp",out) 
-     
     
     SetClipboardText(out)
     MessageRequester("case fold strcmp",out) 
