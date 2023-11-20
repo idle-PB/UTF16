@@ -57,12 +57,11 @@
   Prototype   StrCmp(str.p-unicode,b.p-unicode,mode=#CASEFULL) 
   Prototype   StrCmpTK(str.p-unicode,b.p-unicode,mode=#CASEFULL) 
   Prototype   StrIsUTF16(str.p-unicode) 
-  Prototype   StrUCase(str.p-unicode)   
-  Prototype   StrLCase(str.p-unicode) 
-  Prototype   StrTCase(str.p-unicode,sep=' ') 
+  Prototype   StrUCase(str.p-unicode)                           ;changes the case of the string inplace 
+  Prototype   StrLCase(str.p-unicode)                           ;changes the case of the string inplace  
+  Prototype   StrTCase(str.p-unicode,sep=' ')                   ;changes the case of the string inplace 
   Prototype   StrStripAccents(str.p-unicode)
-  
-  
+    
   Global StrAsc.StrAsc 
   Global StrUCase.StrUCase
   Global StrLCase.StrLCase
@@ -11930,8 +11929,8 @@ CompilerIf #PB_Compiler_IsMainFile
     Global s3.s = "DİYARBAKIR"  ;this turkish city is deemed to be equal  
     Global s4.s = "dIyarbakİr"
     
-    Global s5.s  = "SomeMixedCaseStringWithNothingSpecialOtherThanBeingLong" ;regular strings equal in full or simple 
-    Global s6.s = "sOMEmIXEDcASEsTRINGwithnOTHINGsPECIALoTHERtHANbEINGlONG" 
+    Global s5.s  = "Some Mixed Case String With Nothing Special Other Than Being Long" ;regular strings equal in full or simple 
+    Global s6.s = "sOME mIXED cASE sTRING with nOTHING sPECIAL oTHER tHAN bEING lONG" 
     
     Global s7.s = "Normal cmp" 
     Global s8.s = "Normal cmp" 
@@ -11988,6 +11987,9 @@ CompilerIf #PB_Compiler_IsMainFile
     StrTCase(t1) 
     Debug t1
     PrintN("to Title " + t1) 
+    StrStripAccents(t1) 
+    PrintN("to Strip " + t1) 
+    
     
     t1 = StrChr($1C4) 
     out.s = ""
@@ -12044,8 +12046,8 @@ CompilerIf #PB_Compiler_IsMainFile
     Global lp = 1000000 
     Global st,et,et1,a 
     
-    Global s3.s  = "SomeMixedCaseStringWithNothingSpecialOtherThanBeingLong" ;regular strings equal in full or simple 
-    Global s4.s = "sOMEmIXEDcASEsTRINGwithnOTHINGsPECIALoTHERtHANbEINGlONG" 
+    Global s3.s  = "Some Mixed Case String With Nothing Special Other Than Being Long" ;regular strings equal in full or simple 
+    Global s4.s = "sOME mIXED cASE sTRING with nOTHING sPECIAL oTHER tHAN bEING lONG" 
     
     st = ElapsedMilliseconds()    ;speed test of simple case folding to PB built in compare memory string 
     For a = 1 To lp
@@ -12065,7 +12067,7 @@ CompilerIf #PB_Compiler_IsMainFile
     out = "Strcmp(s3,s4) " + Str(et-st) + " ms for " + FormatNumber(ct,0) + #CRLF$ 
     out + "CompareMemoryString(@s3,@s4) " + Str(et1-et) + " ms for " + FormatNumber(ct1,0) + #CRLF$  
     
-    Global s3.s  = "SomeMixedCaseStringWithNothingSpecialOtherThanBeingLong" ;regular strings equal in full or simple 
+    Global s3.s  = "Some Mixed Case String With Nothing Special Other Than Being Long" ;regular strings equal in full or simple 
     Global s4.s = s3 
         
     st = ElapsedMilliseconds() ;speed test alternating uppercase to lower case 
