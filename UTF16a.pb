@@ -1,5 +1,5 @@
-﻿  ;utf_16.pb v 2.0.1 
-  ;authors idle mk-soft 15/11/22 - 11/6/23
+﻿  ;utf_16a.pb v 2.1.0a 
+  ;authors idle mk-soft 15/11/22 - 20/11/23
   ;
   ;license MIT 
   ;Unicode full case folding case insensitive string matching eliminates need to change input string cases.  
@@ -34,41 +34,10 @@
   
   ;v2.0.0  Renamed module and it's functions as it's grown beyond casefolding 
   ;v2.0.1 Redid strLcase strUcase removed redundant ifs, redid arrays for better cache locality. added speed test for strLcase strUcase : idle  
+  ;v2.1.0a added stripaccents 
   
   DeclareModule UTF16
-  
-  Structure Casefolds 
-    code.l
-    status.u
-    mapping.q 
-  EndStructure 
-  
-  Structure CaseMappings 
-    code.l
-    upper.l
-    lower.l 
-    Title.l 
-    StructureUnion 
-      cdl.u
-      cdh.u
-      cd.l
-    EndStructureUnion  
-  EndStructure   
-  
-  Structure CanonicalDecomp
-     StructureUnion 
-      cdl.u
-      cdh.u
-      cd.l
-    EndStructureUnion  
-  EndStructure   
-  
-  Global Dim casemapping.q(4,$1E943)
-  Global Dim casemappingLC.q($1E943)
-  Global Dim casemappingUC.q($1E943)
-  Global Dim casemappingTC.q($1E943) 
-  Global Dim casemappingCD.CanonicalDecomp($30000) ;canonical decomp
-  
+   
   #CASECOMMON= 0  
   #CASESIMPLE = 1  
   #CASEFULL = 2 
@@ -114,6 +83,39 @@ EndDeclareModule
 Module UTF16
   
   EnableExplicit 
+  
+  Structure Casefolds 
+    code.l
+    status.u
+    mapping.q 
+  EndStructure 
+  
+  Structure CaseMappings 
+    code.l
+    upper.l
+    lower.l 
+    Title.l 
+    StructureUnion 
+      cdl.u
+      cdh.u
+      cd.l
+    EndStructureUnion  
+  EndStructure   
+  
+  Structure CanonicalDecomp
+     StructureUnion 
+      cdl.u
+      cdh.u
+      cd.l
+    EndStructureUnion  
+  EndStructure   
+  
+  Global Dim casemapping.q(4,$1E943)
+  Global Dim casemappingLC.q($1E943)
+  Global Dim casemappingUC.q($1E943)
+  Global Dim casemappingTC.q($1E943) 
+  Global Dim casemappingCD.CanonicalDecomp($30000) ;canonical decom
+   
   
   CompilerIf #PB_Compiler_Debugger 
     ;if there's any errors in the table generating code use this to redo  
