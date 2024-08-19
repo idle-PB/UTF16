@@ -65,7 +65,7 @@
   
   Declare.s   StrChr(v.i)
   Declare.s   StrRight(string$,len) 
-  
+    
   Prototype   StrAsc(str.p-unicode)
   Prototype   StrLen(str.p-unicode) 
   Prototype.s StrMid(str.p-unicode,Position,Length)
@@ -76,8 +76,9 @@
   Prototype   StrUCase(str.p-unicode)   
   Prototype   StrLCase(str.p-unicode) 
   Prototype   StrTCase(str.p-unicode,sep=' ') 
-  
+   
   Global StrAsc.StrAsc 
+  Global strLen.strLen 
   Global StrUCase.StrUCase
   Global StrLCase.StrLCase
   Global StrTCase.StrTCase
@@ -4934,8 +4935,9 @@ Module UTF16
   EndProcedure   
   
   Init_CaseFold() 
-  
-  StrAsc.StrAsc = @StrAsc_() 
+   
+  StrAsc = @StrAsc_() 
+  StrLen = @StrLen_() 
   StrCmp = @StrCmp_()
   StrCmpTK = @StrCmpTK_()
   StrLeft = @StrLeft_()
@@ -5076,6 +5078,7 @@ CompilerIf #PB_Compiler_IsMainFile
     
     Define example$ = "😁A😁😁K😁"
     PrintN(example$)
+    PrintN("len " + strLen(example$)) 
     PrintN("left 2 " +  StrLeft(example$,2)) ;😁A
     PrintN("right 2 " +  StrRight(example$,2));K😁
     PrintN("mid 1,4 " + StrMid(example$,1,4)) ;A😁😁K
